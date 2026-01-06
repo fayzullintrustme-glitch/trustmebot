@@ -13,12 +13,15 @@ from telegram.ext import (
 
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")  # Бот возьмёт токен из настроек хостинга
-ADMIN_ID = int(os.getenv("869137283"))  # На случай, если не указан
+admin_id_str = os.getenv("869137283")
+if not admin_id_str:
+    raise ValueError("Ошибка: ADMIN_ID не задан в Environment Variables на Render.com!")
 
-if not BOT_TOKEN:
-    raise ValueError("BOT_TOKEN не указан в переменных окружения!")
+try:
+    ADMIN_ID = int(admin_id_str)
+except ValueError:
+    raise ValueError("Ошибка: ADMIN_ID должен быть числом (ваш Telegram ID)!")
 
-import os
 # Состояния разговора
 NAME, PHONE, POSITION, COMPANY = range(4)
 
